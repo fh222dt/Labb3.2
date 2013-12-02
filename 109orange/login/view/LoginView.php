@@ -169,8 +169,10 @@ class LoginView implements \login\model\LoginObserver {
 	}
 
 	public function createSuccess() {
-		//anropa formuläret för inlogg
+		$this->getLoginBox();
 		$this->message  = "<p>Registrering av ny användare lyckades</p>";
+		//header("Location: index.php");
+		
 	}
 	
 	/**

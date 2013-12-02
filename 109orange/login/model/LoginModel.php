@@ -57,6 +57,7 @@ class LoginModel {
 	public function addNewUser(UserCredentials $new) {
 		try {
 			$this->allUsers->addUser($new);
+			//print_r($this->allUsers);
 		}
 		catch (\Exception $e) {
 			$observer->createFailed();

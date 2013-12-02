@@ -30,6 +30,8 @@ class UserList {
 		$this->users = array();
 		
 		$this->loadAdmin();
+
+		print_r($this->users);
 	}
 
 	/**
@@ -66,13 +68,19 @@ class UserList {
 	 * 
 	 * @return [type] [description]
 	 */
-	private function loadAdmin() {
+	private function loadAdmin() {					//////////////////////////////////
 		
 		$this->adminFile = new \common\model\PHPFileStorage("data/admin.php");
 		try {
 			//Read admin from file
-			$adminUserString = $this->adminFile->readItem("Admin");
-			$admin = UserCredentials::fromString($adminUserString);
+			//$adminUserString = $this->adminFile->readItem("Admin");
+			//$admin = UserCredentials::fromString($adminUserString);
+			
+			$allusers = $this->adminFile->readAll();
+			foreach ($allusers as $user) {
+				$user = UserCredentials::fromString($user);
+				$this->users[$user->getUserName()->__toString()] = $user;
+			}
 
 		} catch (\Exception $e) {
 			\Debug::log("Could not read file, creating new one", true, $e);
@@ -84,6 +92,6 @@ class UserList {
 			$this->update($admin);
 		}
 
-		$this->users[$admin->getUserName()->__toString()] = $admin;
+		//$this->users[$admin->getUserName()->__toString()] = $admin;
 	}
 }

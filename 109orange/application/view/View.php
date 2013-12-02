@@ -67,7 +67,7 @@ class View {
 
 		$html.="<a href='index.php'>Tillbaka</a>";
 
-		$html .= "<h2>Ej Inloggad, Registrera användare</h2>
+		$html .= "<h2>Ej Inloggad, Registrerar användare</h2>
 				  	$createBox
 				 ";
 		$html .= $this->getFooter();
@@ -82,7 +82,7 @@ class View {
 	 * @return  String HTML
 	 */
 	private function getHeader($isLoggedIn) {
-		$ret =  "<h1>Laborationskod xx222aa</h1>";
+		$ret =  "<h1>Laborationskod fh222dt</h1>";
 		return $ret;
 		
 	}
