@@ -56,6 +56,10 @@ class UserList {
 		$this->users[$changedUser->getUserName()->__toString()] = $changedUser;
 	}
 
+	public function addUser(UserCredentials $add) {
+		$this->adminFile->writeItem($add->getUserName(), $add->toString());
+	}
+
 	/**
 	 * Temporary function to store "Admin" user in file "data/admin.php"
 	 * If no file is found a new one is created.

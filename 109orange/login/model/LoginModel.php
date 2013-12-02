@@ -54,6 +54,16 @@ class LoginModel {
 		}
 	}
 
+	public function addNewUser(UserCredentials $new) {
+		try {
+			$this->allUsers->addUser($new);
+		}
+		catch (\Exception $e) {
+			$observer->createFailed();
+			throw $e;
+		}
+	}
+
 	/**
 	 * @return boolean [description]
 	 */

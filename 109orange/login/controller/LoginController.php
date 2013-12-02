@@ -68,6 +68,17 @@ class LoginController {
 					$this->view->LoginFailed();
 				}
 			}
+			if ($this->view->isCreating() ) {
+				try {
+					$credentials = $this->view->getNewCredentials();
+					$this->model->addNewUser($credentials);
+					$this->view->createSuccess();
+					
+				} catch (\Exception $e) {
+					//\Debug::log("Login failed", false, $e->getMessage());
+					$this->view->createFailed();
+				}
+			}
 		}
 	}
 }

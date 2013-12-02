@@ -7,6 +7,7 @@ namespace login\model;
  */
 interface LoginObserver {
 	public function loginFailed();
+	public function createFailed();		//lagt till 
 	public function loginOK(TemporaryPasswordServer $info);
 }
 

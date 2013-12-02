@@ -4,6 +4,7 @@ namespace login\view;
 
 require_once("./common/Filter.php");
 require_once("./login/model/LoginObserver.php");
+require_once("./login/model/create.php");
 
 class LoginView implements \login\model\LoginObserver {
 
@@ -12,6 +13,7 @@ class LoginView implements \login\model\LoginObserver {
 	private static $LOGIN = "login";
 	private static $USERNAME = "LoginView::UserName";
 	private static $PASSWORD = "LoginView::Password";
+	private static $PASSWORD2 = "LoginView::Password2";
 	private static $CHECKED = "LoginView::Checked";
 
 	/**
@@ -25,8 +27,7 @@ class LoginView implements \login\model\LoginObserver {
 	/**
 	 * @return String HTML
 	 */
-	public function getLoginBox() {
-		
+	public function getLoginBox() {	
 		 
 		$user = $this->getUserName();
 		$checked = $this->userWantsToBeRemembered() ? "checked=checked" : "";
@@ -52,18 +53,19 @@ class LoginView implements \login\model\LoginObserver {
 
 	public function getCreateBox() {
 
+		$user = $this->getUserName();
 		$html = "
 				<form action='?create' method='post'>
 				<fieldset>
-				$this->message
-				<legend>Registrera ny användare - Skriv in användarnamn och lösenord</legend>
-				<label for='name'>Namn:</label>
-				<input id='name' name='name' type='text' size='15'></br>
-				<label for='password1'>Lösenord:</label>
-				<input id='password1' name='password1' type='password' size='15'></br>
-				<label for='password2'>Repetera lösenord:</label>
-				<input id='password2' name='password2' type='password' size='15'></br>
-				<input type='submit' name='submit' value='Registrera'>
+					<legend>Registrera ny användare - Skriv in användarnamn och lösenord</legend>
+					$this->message <br/>
+					<label for='name'>Namn:</label>
+					<input id='name' name='" . self::$USERNAME . "' type='text' size='15' value='$user'></br>
+					<label for='password1'>Lösenord:</label>
+					<input id='password1' name='" . self::$PASSWORD . "' type='password' size='15'></br>
+					<label for='password2'>Repetera lösenord:</label>
+					<input id='password2' name='" . self::$PASSWORD2 . "' type='password' size='15'></br>
+					<input type='submit' name='reg' value='Registrera'>
 				</fieldset>
 				</form>";
 
@@ -89,6 +91,15 @@ class LoginView implements \login\model\LoginObserver {
 			return false;
 		}
 	}
+
+	public function isCreating() {
+		if (isset($_GET['create'])) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	
 	/**
 	 * @return String HTML
@@ -109,6 +120,12 @@ class LoginView implements \login\model\LoginObserver {
 																	\login\model\Password::fromCleartext($this->getPassword()));
 		}
 	}
+
+	public function getNewCredentials() {
+		$create = new \login\model\create($this->getUserName(), $this->getPassword(), $this->getPassword2());
+		return \login\model\UserCredentials::create(new \login\model\UserName($create->username), 
+													\login\model\Password::fromCleartext($create->password));
+	}
 	
 	/**
 	 * From \model\LoginObserver
@@ -127,6 +144,33 @@ class LoginView implements \login\model\LoginObserver {
 				$this->message = "<p>Felaktigt användarnamn och/eller lösenord</p>";
 			}
 		}
+	}
+
+	public function createFailed() {
+		$username = $this->getUserName();
+		$password = $this->getPassword();
+		$password2 = $this->getPassword2();
+
+		if ($password != $password2) {
+			$this->message .= "<p>Lösenorden matchar inte";
+		}
+
+		if (strlen($username) < 3) {
+			$this->message .= "<p>Användarnamnet har för få tecken. Minst 3 tecken";
+		}
+
+		if (strlen($password) < 6) {
+			$this->message .= "<p>Lösenorden har för få tecken. Minst 6 tecken";
+		}
+		else if (strlen($password2) < 6) {
+			$this->message .= "<p>Lösenorden har för få tecken. Minst 6 tecken";
+		}
+
+	}
+
+	public function createSuccess() {
+		//anropa formuläret för inlogg
+		$this->message  = "<p>Registrering av ny användare lyckades</p>";
 	}
 	
 	/**
@@ -181,6 +225,18 @@ class LoginView implements \login\model\LoginObserver {
 	private function getPassword() {
 		if (isset($_POST[self::$PASSWORD]))
 			return \Common\Filter::sanitizeString($_POST[self::$PASSWORD]);
+		else
+			return "";
+	}
+
+	/**
+	 * note: private!
+	 * 
+	 * @return String
+	 */
+	private function getPassword2() {
+		if (isset($_POST[self::$PASSWORD2]))
+			return \Common\Filter::sanitizeString($_POST[self::$PASSWORD2]);
 		else
 			return "";
 	}
