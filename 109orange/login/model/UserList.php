@@ -31,7 +31,7 @@ class UserList {
 		
 		$this->loadAdmin();
 
-		print_r($this->users);
+		//print_r($this->users);
 	}
 
 	/**
@@ -73,8 +73,8 @@ class UserList {
 		$this->adminFile = new \common\model\PHPFileStorage("data/admin.php");
 		try {
 			//Read admin from file
-			//$adminUserString = $this->adminFile->readItem("Admin");
-			//$admin = UserCredentials::fromString($adminUserString);
+			$adminUserString = $this->adminFile->readItem("Admin");
+			$admin = UserCredentials::fromString($adminUserString);
 			
 			$allusers = $this->adminFile->readAll();
 			foreach ($allusers as $user) {

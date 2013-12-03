@@ -54,10 +54,26 @@ class LoginModel {
 		}
 	}
 
-	public function addNewUser(UserCredentials $new) {
+	public function addNewUser(UserCredentials $new, LoginObserver $observer) {
 		try {
-			$this->allUsers->addUser($new);
-			//print_r($this->allUsers);
+			//$uniqeUser = $this->allUsers->findUser($new);
+			//$uniqeUser->newTemporaryPassword();
+			
+			/*print_r($uniqeUser);
+			//$uniqeUser = null;
+
+			if($uniqeUser == null) {
+				throw new \Exception("Användaren finns redan");				
+			}
+
+			else {
+				$this->allUsers->addUser($new);
+			}		*/
+
+			
+
+			$this->allUsers->addUser($new);	
+			
 		}
 		catch (\Exception $e) {
 			$observer->createFailed();

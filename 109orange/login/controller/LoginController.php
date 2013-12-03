@@ -71,11 +71,10 @@ class LoginController {
 			if ($this->view->isCreating() ) {
 				try {
 					$credentials = $this->view->getNewCredentials();
-					$this->model->addNewUser($credentials);
+					$this->model->addNewUser($credentials, $this->view);
 					$this->view->createSuccess();
 					
 				} catch (\Exception $e) {
-					//\Debug::log("Login failed", false, $e->getMessage());
 					$this->view->createFailed();
 				}
 			}

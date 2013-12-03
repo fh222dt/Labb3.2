@@ -12,7 +12,6 @@ class Create {
 	//skapa en användare
 	//Tar 2 strängar som inparametrar
 	public function __construct ($username, $password, $password2) {
-
 		if ($username == "") {
             throw new \Exception("Måste ange användarnamn");
         }

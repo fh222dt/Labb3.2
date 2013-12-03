@@ -123,9 +123,18 @@ class LoginView implements \login\model\LoginObserver {
 
 	public function getNewCredentials() {
 		$create = new \login\model\create($this->getUserName(), $this->getPassword(), $this->getPassword2());
-		return \login\model\UserCredentials::create(new \login\model\UserName($create->username), 
+		
+		if(\Common\Filter::hasTags($_POST[self::$USERNAME]) == true) {
+			throw new \Exception("Error Processing Request", 1);
+			;
+		}
+		else {
+			return \login\model\UserCredentials::create(new \login\model\UserName($create->username), 
 													\login\model\Password::fromCleartext($create->password));
+		}
 	}
+
+		
 	
 	/**
 	 * From \model\LoginObserver
@@ -151,20 +160,28 @@ class LoginView implements \login\model\LoginObserver {
 		$password = $this->getPassword();
 		$password2 = $this->getPassword2();
 
+		if(\Common\Filter::hasTags($_POST[self::$USERNAME]) == true) {
+			$this->message .= "<p>Användarnamnet innehåller ogiltiga tecken</p>";
+		}
+
 		if ($password != $password2) {
-			$this->message .= "<p>Lösenorden matchar inte";
+			$this->message .= "<p>Lösenorden matchar inte</p>";
 		}
 
 		if (strlen($username) < 3) {
-			$this->message .= "<p>Användarnamnet har för få tecken. Minst 3 tecken";
-		}
+			$this->message .= "<p>Användarnamnet har för få tecken. Minst 3 tecken</p>";
+		}		
 
 		if (strlen($password) < 6) {
-			$this->message .= "<p>Lösenorden har för få tecken. Minst 6 tecken";
+			$this->message .= "<p>Lösenorden har för få tecken. Minst 6 tecken</p>";
 		}
 		else if (strlen($password2) < 6) {
-			$this->message .= "<p>Lösenorden har för få tecken. Minst 6 tecken";
+			$this->message .= "<p>Lösenorden har för få tecken. Minst 6 tecken</p>";
 		}
+
+		/*if($uniqeUser == null) {	//blir 2 utskrivningar
+			$this->message .= "<p>Användarnamnet är redan upptaget</p>";
+		}*/
 
 	}
 
