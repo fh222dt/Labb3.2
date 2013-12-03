@@ -16,6 +16,9 @@ class LoginController {
 	 * @var \login\view\LoginView
 	 */
 	private $view;
+
+
+	private $name;
 	
 	/**
 	 * @param loginviewLoginView $view
@@ -49,6 +52,8 @@ class LoginController {
 	 * note this has no output, output goes through views that are called seperately
 	 */
 	public function doToggleLogin() {
+		
+
 		if ($this->model->isLoggedIn()) {
 			\Debug::log("We are logged in");
 			if ($this->view->isLoggingOut() ) {
@@ -71,12 +76,19 @@ class LoginController {
 			if ($this->view->isCreating() ) {
 				try {
 					$credentials = $this->view->getNewCredentials();	//blir ett usercreditialsobjekt
-					$this->model->addNewUser($credentials, $this->view);
-					$this->view->createSuccess();
+					$this->name = $this->model->addNewUser($credentials, $this->view);
+					//if($this->view->isSuccess() ) {
+						$this->view->getLoginBox($name);
+					//}
 					
-				} catch (\Exception $e) {
+					
+				} 
+				catch (\Exception $e) {
 					$this->view->createFailed();
 				}
+			}
+			if ($this->view->isSuccess() ) {
+				$this->view->getLoginBox($this->name);
 			}
 		}
 	}

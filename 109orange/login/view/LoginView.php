@@ -27,10 +27,14 @@ class LoginView implements \login\model\LoginObserver {
 	/**
 	 * @return String HTML
 	 */
-	public function getLoginBox() {	
-		 
-		$user = $this->getUserName();
+	public function getLoginBox() {			
+		$user = $this->getUserName();		
 		$checked = $this->userWantsToBeRemembered() ? "checked=checked" : "";
+		
+		if($this->isSuccess()) {
+			$this->message  = "<p>Registrering av ny användare lyckades</p>";
+			$user = $_SESSION['newuser'];
+		}
 		
 		$html = "
 			<form action='?" . self::$LOGIN . "' method='post' enctype='multipart/form-data'>
@@ -100,6 +104,15 @@ class LoginView implements \login\model\LoginObserver {
 			return false;
 		}
 	}
+
+	public function isSuccess() {
+		if (isset($_GET['success'])) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	
 	/**
 	 * @return String HTML
@@ -160,6 +173,8 @@ class LoginView implements \login\model\LoginObserver {
 		$password = $this->getPassword();
 		$password2 = $this->getPassword2();
 
+		//header('location: ?regform');
+
 		if(\Common\Filter::hasTags($_POST[self::$USERNAME]) == true) {
 			$this->message .= "<p>Användarnamnet innehåller ogiltiga tecken</p>";
 		}
@@ -182,12 +197,13 @@ class LoginView implements \login\model\LoginObserver {
 		else {
 			$this->message .= "<p>Användarnamnet är redan upptaget</p>";
 		}
-
 	}
 
 	public function createSuccess() {
-		//$this->getLoginBox();
+		//$this->getLoginBox($name);
+		//$_POST[self::$USERNAME] = $name;
 		$this->message  = "<p>Registrering av ny användare lyckades</p>";
+		
 			
 	}
 	

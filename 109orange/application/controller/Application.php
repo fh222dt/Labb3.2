@@ -38,9 +38,13 @@ class Application {
 			$loggedInUserCredentials = $this->loginController->getLoggedInUser();
 			return $this->view->getLoggedInPage($loggedInUserCredentials);	
 		} 
-		else if (isset($_GET['regform']) || isset($_GET['create'])) {
+		if (isset($_GET['regform']) || isset($_GET['create']) ) {			// 
 			return $this->view->getCreateUserPage();
 		}
+
+		/*if (isset($_GET['success'])) {
+			return $this->view->getSuccessPage();
+		}*/
 
 		else {
 			return $this->view->getLoggedOutPage();

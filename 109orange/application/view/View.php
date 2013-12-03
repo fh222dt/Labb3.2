@@ -31,7 +31,7 @@ class View {
 	 */
 	public function getLoggedOutPage() {
 		$html = $this->getHeader(false);
-		$loginBox = $this->loginView->getLoginBox(); 
+		$loginBox = $this->loginView->getLoginBox(""); 
 
 		$html.="<a href='?regform'>Registrera ny användare</a>";
 
@@ -42,6 +42,21 @@ class View {
 
 		return new \common\view\Page("Laboration. Inte inloggad", $html);
 	}
+
+	public function getSuccessPage() {				////////////////////////////////////////////////////////
+		$html = $this->getHeader(false);
+		$loginBox = $this->loginView->getLoginBox(""); 
+
+		$html.="<a href='?regform'>Registrera ny användare</a>";
+
+		$html .= "<h2>Ej Inloggad</h2>
+				  	$loginBox
+				 ";
+		$html .= $this->getFooter();
+
+		return new \common\view\Page("Laboration. Inte inloggad", $html);
+	}
+
 	
 	/**
 	 * @param \login\login\UserCredentials $user

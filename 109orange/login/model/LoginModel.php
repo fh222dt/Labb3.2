@@ -65,7 +65,8 @@ class LoginModel {
 
 			else {
 				$this->allUsers->addUser($new);
-				header("Location: ?createsucess");
+				header('location: ?success');
+				$_SESSION['newuser'] = $new->getUserName();
 			}
 	}
 
