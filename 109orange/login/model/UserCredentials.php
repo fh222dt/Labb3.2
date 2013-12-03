@@ -13,7 +13,7 @@ class UserCredentials {
 	/**
 	 * @var UserName
 	 */
-	private $userName; //unique username
+	private $userName; //unique username 
 
 	/**
 	 * @var Password

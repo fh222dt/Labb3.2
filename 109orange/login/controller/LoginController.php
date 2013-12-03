@@ -70,7 +70,7 @@ class LoginController {
 			}
 			if ($this->view->isCreating() ) {
 				try {
-					$credentials = $this->view->getNewCredentials();
+					$credentials = $this->view->getNewCredentials();	//blir ett usercreditialsobjekt
 					$this->model->addNewUser($credentials, $this->view);
 					$this->view->createSuccess();
 					

@@ -179,17 +179,16 @@ class LoginView implements \login\model\LoginObserver {
 			$this->message .= "<p>Lösenorden har för få tecken. Minst 6 tecken</p>";
 		}
 
-		/*if($uniqeUser == null) {	//blir 2 utskrivningar
+		else {
 			$this->message .= "<p>Användarnamnet är redan upptaget</p>";
-		}*/
+		}
 
 	}
 
 	public function createSuccess() {
-		$this->getLoginBox();
+		//$this->getLoginBox();
 		$this->message  = "<p>Registrering av ny användare lyckades</p>";
-		//header("Location: index.php");
-		
+			
 	}
 	
 	/**

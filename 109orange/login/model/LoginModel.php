@@ -54,31 +54,19 @@ class LoginModel {
 		}
 	}
 
+	//puts new user to userlist
 	public function addNewUser(UserCredentials $new, LoginObserver $observer) {
-		try {
-			//$uniqeUser = $this->allUsers->findUser($new);
-			//$uniqeUser->newTemporaryPassword();
 			
-			/*print_r($uniqeUser);
-			//$uniqeUser = null;
+			$NotUniqeUser = $this->allUsers->findDouble($new->getUserName());
 
-			if($uniqeUser == null) {
+			if($NotUniqeUser == true) {
 				throw new \Exception("Användaren finns redan");				
 			}
 
 			else {
 				$this->allUsers->addUser($new);
-			}		*/
-
-			
-
-			$this->allUsers->addUser($new);	
-			
-		}
-		catch (\Exception $e) {
-			$observer->createFailed();
-			throw $e;
-		}
+				header("Location: ?createsucess");
+			}
 	}
 
 	/**

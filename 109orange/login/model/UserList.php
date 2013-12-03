@@ -50,6 +50,15 @@ class UserList {
 		throw new \Exception("could not login, no matching user");
 	}
 
+	//param Username from object
+	public function findDouble($username) {
+		foreach($this->users as $user) {
+			if ($user->getUserName() == $username) {
+				return true;
+			}
+		}
+	}
+
 	public function update(UserCredentials $changedUser) {
 		//this user needs to be saved since temporary password changed
 		$this->adminFile->writeItem($changedUser->getUserName(), $changedUser->toString());
