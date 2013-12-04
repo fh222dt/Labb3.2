@@ -28,7 +28,6 @@ class Create {
 
 		$this->username = $username;
 		$this->password = $password;
-		//$this->password2 = $password;
 		
 	}
 }

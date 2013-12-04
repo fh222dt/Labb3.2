@@ -42,10 +42,6 @@ class Application {
 			return $this->view->getCreateUserPage();
 		}
 
-		/*if (isset($_GET['success'])) {
-			return $this->view->getSuccessPage();
-		}*/
-
 		else {
 			return $this->view->getLoggedOutPage();
 		}

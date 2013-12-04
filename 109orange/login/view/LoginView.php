@@ -173,38 +173,25 @@ class LoginView implements \login\model\LoginObserver {
 		$password = $this->getPassword();
 		$password2 = $this->getPassword2();
 
-		//header('location: ?regform');
-
 		if(\Common\Filter::hasTags($_POST[self::$USERNAME]) == true) {
 			$this->message .= "<p>Användarnamnet innehåller ogiltiga tecken</p>";
 		}
 
-		if ($password != $password2) {
+		else if ($password != $password2) {
 			$this->message .= "<p>Lösenorden matchar inte</p>";
 		}
 
-		if (strlen($username) < 3) {
+		else if (strlen($username) < 3) {
 			$this->message .= "<p>Användarnamnet har för få tecken. Minst 3 tecken</p>";
 		}		
 
-		if (strlen($password) < 6) {
+		else if (strlen($password) < 6) {
 			$this->message .= "<p>Lösenorden har för få tecken. Minst 6 tecken</p>";
 		}
-		else if (strlen($password2) < 6) {
-			$this->message .= "<p>Lösenorden har för få tecken. Minst 6 tecken</p>";
-		}
-
+		
 		else {
 			$this->message .= "<p>Användarnamnet är redan upptaget</p>";
 		}
-	}
-
-	public function createSuccess() {
-		//$this->getLoginBox($name);
-		//$_POST[self::$USERNAME] = $name;
-		$this->message  = "<p>Registrering av ny användare lyckades</p>";
-		
-			
 	}
 	
 	/**

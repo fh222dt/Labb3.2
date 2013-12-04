@@ -75,13 +75,8 @@ class LoginController {
 			}
 			if ($this->view->isCreating() ) {
 				try {
-					$credentials = $this->view->getNewCredentials();	//blir ett usercreditialsobjekt
-					$this->name = $this->model->addNewUser($credentials, $this->view);
-					//if($this->view->isSuccess() ) {
-						$this->view->getLoginBox($name);
-					//}
-					
-					
+					$credentials = $this->view->getNewCredentials();
+					$this->name = $this->model->addNewUser($credentials, $this->view);					
 				} 
 				catch (\Exception $e) {
 					$this->view->createFailed();
